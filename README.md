@@ -4,11 +4,18 @@ This project was created as part of Harvard's CS50 Web Programming with Python a
 
 ## 🚀 Features
 ✅ **User authentication (register, login, logout)**
+
 ✅ **Create auction listings with title, description, starting bid, image URL, and category**
+
 ✅ **View active listings**
+
 ✅ **Place bids on items (must be higher than the current bid)**
+
 ✅ **Add and remove items from a watchlist**
+
 ✅ **Close auctions and determine the highest bidder**
+
 ✅ **Comment on auction listings**
+
 ✅ **Admin interface for managing listings, bids, and comments**
 
