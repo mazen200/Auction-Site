@@ -1,0 +1,80 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<style>
+    .auction-details {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    .auction-details h1 {
+        text-align: center;
+    }
+    .auction-details img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+    .auction-details p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    .comments-section {
+        margin-top: 20px;
+    }
+    .comment {
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="auction-details">
+    <h1>{{ auction.title }}</h1>
+
+    {% if auction.image_url != None %}
+    <div>
+        <img src="{{ auction.image_url }}" alt="Image of {{ auction.title }}">
+    </div>
+    {% endif %}
+
+    <p><strong>Description:</strong> {{ auction.description }}</p>
+    <p><strong>Starting bid:</strong> {{ auction.starting_bid }}</p>
+    <p><strong>Current bid:</strong> {{ auction.current_bid }}</p>
+    <p><strong>Category:</strong> {{ auction.category }}</p>
+    <p><strong>Created by:</strong> {{ auction.owner }}</p>
+    <form action="{% url 'auctions:detail' auction.id %}" method="post">
+        {% csrf_token %}
+        {{ BidForm }}
+        <button type="submit">Bid</button>
+    </form>
+
+    <div class="comments-section">
+        <h2>Comments</h2>
+        {% for comment in comments %}
+        <div class="comment">
+            <p><strong>{{ comment.user }}</strong> says:</p>
+            <p>Comment: {{ comment.content }}</p>
+            <p>Posted on: {{ comment.timestamp }}</p>
+        </div>
+        {% endfor %}
+
+        {% if comments|length == 0 %}
+        <p>No comments yet.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <form action="{% url 'auctions:detail' auction.id %}" method="post">
+            {% csrf_token %}
+            {{ CommentForm }}
+            <button type="submit">Post Comment</button>
+        </form>
+    
+    </div>
+{% endblock %}
+</div>

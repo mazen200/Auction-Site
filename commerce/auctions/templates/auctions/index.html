@@ -1,0 +1,18 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    <ul>
+        {% if auctions %}
+            {% for auction in auctions %}
+                <li>
+                    <a href="{% url 'auctions:detail' auction.id %}">{{ auction.title }}</a>
+                    <span>by {{ auction.owner }}</span>
+                    <span>starting at ${{ auction.starting_bid }}</span>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No active listings available.</li>
+        {% endif %}
+    </ul>
+{% endblock %}
