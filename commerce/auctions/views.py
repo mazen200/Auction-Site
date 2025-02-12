@@ -8,6 +8,7 @@ from .models import User
 
 from django import forms
 from .models import Listing, Bid, Comment
+from django.contrib.auth.decorators import login_required
 
 # Forms 
 class AuctionForm(forms.ModelForm):
@@ -28,15 +29,13 @@ class CommentForm(forms.ModelForm):
 
 
 
+
 # views
 
-    
-   
-    
 def index(request):
-    return render(request, "auctions/index.html",
-    {"auctions": Listing.objects.all()}
-    )
+    return render(request, "auctions/index.html", {
+        "auctions": Listing.objects.filter(active=True)
+    })
 
 
 def login_view(request):
@@ -90,7 +89,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
-
+@login_required
 def create_view(request):
     if request.method == "POST":
         Auction = AuctionForm(request.POST)
@@ -105,7 +104,7 @@ def create_view(request):
         "AuctionForm":AuctionForm()
     })
 
-
+@login_required
 def detail_view(request, id):
     try:
         auction = Listing.objects.get(pk=id)

@@ -15,4 +15,9 @@
             <li>No active listings available.</li>
         {% endif %}
     </ul>
+    
+    <div>
+        <h3>Want to create a new auction?</h3>
+        <a href="{% url 'auctions:create' %}">Create Auction</a>
+    </div>
 {% endblock %}
