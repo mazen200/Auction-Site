@@ -10,7 +10,7 @@ from django import forms
 from .models import Listing, Bid, Comment
 
 # Forms 
-class ListingForm(forms.ModelForm):
+class AuctionForm(forms.ModelForm):
     class Meta:
         model = Listing
         fields = ["title", "description", "starting_bid", "image_url", "category"]
@@ -89,6 +89,22 @@ def register(request):
         return HttpResponseRedirect(reverse("auctions:index"))
     else:
         return render(request, "auctions/register.html")
+
+
+def create_view(request):
+    if request.method == "POST":
+        Auction = AuctionForm(request.POST)
+        if Auction.is_valid():
+            new_auction = Auction.save(commit=False)
+            new_auction.owner = request.user
+            new_auction.active = True
+            new_auction.save()
+            return HttpResponseRedirect(reverse("auctions:detail", kwargs={"id": new_auction.pk}))
+     
+    return render( request,"auctions/createAuction.html",{
+        "AuctionForm":AuctionForm()
+    })
+
 
 def detail_view(request, id):
     try:
